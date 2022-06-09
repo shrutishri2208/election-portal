@@ -7,7 +7,7 @@ import "hardhat/console.sol";
 contract Election {
     constructor() {
         console.log("I AM A SMART CONTRACT!");
-        addCandidate("Candidate 0");
+        addCandidate("NULL");
         addCandidate("Candidate 1");
         addCandidate("Candidate 2");
     }

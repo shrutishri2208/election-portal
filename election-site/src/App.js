@@ -8,7 +8,7 @@ function App() {
   const [allDetails, setAllDetails] = useState([]);
   // const [candidateCount, setCandidateCount] = useState();
 
-  const contractAddress = "0xB6059bD2a7E7C3A2B76afa31b8Fb4bC9Dd3e4320";
+  const contractAddress = "0x5d2b348948D9BA56401a09EB2278A6365867C04b";
   const contractABI = abi.abi;
 
   const checkIfWalletIsConnected = async () => {
@@ -123,38 +123,54 @@ function App() {
   return (
     <div className="App">
       <div className="header">
-        <h1>ELECTION RESULTS</h1>
+        <h1>ELECTION PORTAL</h1>
       </div>
-      <div>
-        <h3>Select Candidate</h3>
+      <hr></hr>
+      <div className="connectWallet">
+        {!currentAccount && (
+          <button onClick={connectAccount}>Connect your wallet to vote!</button>
+        )}
       </div>
-
-      <div>
-        <button onClick={() => vote("1")}>Candidate 1</button>
-        <button onClick={() => vote("2")}>Candidate 2</button>
+      <div className="voteContainer">
+        <h1>Select a candidate</h1>
+        <div>
+          <button onClick={() => vote("1")}>Candidate 1</button>
+          <button onClick={() => vote("2")}>Candidate 2</button>
+          <button onClick={() => vote("3")}>Candidate 3</button>
+        </div>
       </div>
-      <div>
-        <button onClick={getDetails}>Get candidates details</button>
+      <hr></hr>
+      <div className="resultContainer">
+        <button onClick={getDetails}>Get results</button>
+        <table>
+          <tr>
+            <th>ID</th>
+            <th>Name of the candidate</th>
+            <th>No. of votes</th>
+          </tr>
+          {allDetails.map((detail, index) => {
+            return (
+              <tr>
+                <td>{detail.id}</td>
+                <td>{detail.name}</td>
+                <td>{detail.voteCount}</td>
+              </tr>
+              // <div
+              //   key={index}
+              //   style={{
+              //     color: "black",
+              //     marginTop: "16px",
+              //     padding: "8px",
+              //   }}
+              // >
+              //   <div>ID: {detail.id}</div>
+              //   <div>NAME: {detail.name}</div>
+              //   <div>VOTE COUNT: {detail.voteCount}</div>
+              // </div>
+            );
+          })}
+        </table>
       </div>
-      {!currentAccount && (
-        <button onClick={connectAccount}>CONNECT WALLET</button>
-      )}
-      {allDetails.map((detail, index) => {
-        return (
-          <div
-            key={index}
-            style={{
-              color: "black",
-              marginTop: "16px",
-              padding: "8px",
-            }}
-          >
-            <div>ID: {detail.id}</div>
-            <div>NAME: {detail.name}</div>
-            <div>VOTE COUNT: {detail.voteCount}</div>
-          </div>
-        );
-      })}
     </div>
   );
 }
