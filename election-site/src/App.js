@@ -6,9 +6,12 @@ const ethers = require("ethers");
 function App() {
   const [currentAccount, setCurrentAccount] = useState("");
   const [allDetails, setAllDetails] = useState([]);
-  // const [candidateCount, setCandidateCount] = useState();
+  const [loader, setLoader] = useState(false);
+  const [voted, setVoted] = useState(false);
+  const [error, setError] = useState(false);
+  //const [candidateCount, setCandidateCount] = useState();
 
-  const contractAddress = "0x5d2b348948D9BA56401a09EB2278A6365867C04b";
+  const contractAddress = "0xF76e2868EaFC193A9426d62bcc55A12b8E613808";
   const contractABI = abi.abi;
 
   const checkIfWalletIsConnected = async () => {
@@ -26,6 +29,8 @@ function App() {
         let account = accounts[0];
         setCurrentAccount(account);
         console.log("Found an authorized account, ", account);
+        getDetails();
+        //setCandidateCount(await electionContract.candidateCount());
       } else {
         console.log("No connected account found");
       }
@@ -50,7 +55,10 @@ function App() {
     }
   };
   const vote = async (candidateID) => {
-    console.log("TRYING TO VOTE: ", candidateID);
+    setVoted(false);
+    setLoader(false);
+    setError(false);
+
     try {
       const { ethereum } = window;
 
@@ -62,22 +70,32 @@ function App() {
           contractABI,
           signer
         );
-
+        let signerAddress = await signer.getAddress();
+        console.log("SIGNER: ", signerAddress);
+        console.log("TRYING TO VOTE: ", candidateID);
         const voteTxn = await electionContract.vote(candidateID, {
-          gasLimit: 100000,
+          gasLimit: 1000000,
         });
         console.log("Mining...", voteTxn.hash);
+        setLoader(true);
 
         await voteTxn.wait();
+        setLoader(false);
+        setVoted(true);
 
         console.log("Mined...", voteTxn.hash);
+
         console.log("VOTED FOR CANDIDATE ", candidateID);
-        alert("YOUR VOTE HAS BEEN RECORDED!!");
+
+        getDetails();
       } else {
         console.log("No ethereum object found");
       }
     } catch (error) {
       console.log(error);
+      console.log("YOU CAN ONLY VOTE ONCE");
+      setLoader(false);
+      setError(true);
     }
   };
 
@@ -94,8 +112,6 @@ function App() {
           contractABI,
           signer
         );
-
-        // setCandidateCount(await electionContract.candidateCount());
 
         const details = await electionContract.getAllDetails();
 
@@ -133,15 +149,22 @@ function App() {
       </div>
       <div className="voteContainer">
         <h1>Select a candidate</h1>
-        <div>
+        {/* <div>
           <button onClick={() => vote("1")}>Candidate 1</button>
           <button onClick={() => vote("2")}>Candidate 2</button>
           <button onClick={() => vote("3")}>Candidate 3</button>
-        </div>
+        </div> */}
+        {allDetails.map((candidate, index) => {
+          return (
+            <button key={index} onClick={() => vote(index + 1)}>
+              {candidate.name}
+            </button>
+          );
+        })}
       </div>
       <hr></hr>
       <div className="resultContainer">
-        <button onClick={getDetails}>Get results</button>
+        {/* <button onClick={getDetails}>Get results</button> */}
         <table>
           <tr>
             <th>ID</th>
@@ -150,27 +173,18 @@ function App() {
           </tr>
           {allDetails.map((detail, index) => {
             return (
-              <tr>
+              <tr key={index}>
                 <td>{detail.id}</td>
                 <td>{detail.name}</td>
                 <td>{detail.voteCount}</td>
               </tr>
-              // <div
-              //   key={index}
-              //   style={{
-              //     color: "black",
-              //     marginTop: "16px",
-              //     padding: "8px",
-              //   }}
-              // >
-              //   <div>ID: {detail.id}</div>
-              //   <div>NAME: {detail.name}</div>
-              //   <div>VOTE COUNT: {detail.voteCount}</div>
-              // </div>
             );
           })}
         </table>
       </div>
+      {loader && <h3>LOADING...</h3>}
+      {voted && <h3>YOUR VOTE HAS BEEN RECORDED!</h3>}
+      {error && <h3>YOU CAN ONLY VOTE ONCE!</h3>}
     </div>
   );
 }

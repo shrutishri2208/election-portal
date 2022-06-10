@@ -58,8 +58,8 @@ const main = async () => {
   voteTxn = await electionContract.vote(2);
   await voteTxn.wait();
 
-  let allVotes = await electionContract.getAllDetails();
-  console.log(allVotes);
+  let voters = await electionContract.getAllVoters();
+  console.log(voters);
 };
 
 const runMain = async () => {
