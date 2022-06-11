@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
+require("dotenv").config;
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -20,10 +21,8 @@ module.exports = {
   solidity: "0.8.4",
   networks: {
     rinkeby: {
-      url: "https://eth-rinkeby.alchemyapi.io/v2/OkWLDnuQjW1tgnebhvAoPL7jTNO2Has-",
-      accounts: [
-        "acd0571ecaf0a84215ea3dc1bf96c916c32befec37fc9c2466197e9d27b9f39b",
-      ],
+      url: process.env.STAGING_ALCHEMY_URL,
+      accounts: [process.env.PRIVATE_KEY],
     },
   },
 };
