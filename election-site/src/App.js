@@ -11,7 +11,7 @@ function App() {
   const [error, setError] = useState(false);
   //const [candidateCount, setCandidateCount] = useState();
 
-  const contractAddress = "0x87543dA22246009AFDBA9644dd12fF0994C381E8";
+  const contractAddress = "0x8d6be80b00416D8C8a9b431AD8028B7d83687DE6";
   const contractABI = abi.abi;
 
   const checkIfWalletIsConnected = async () => {
@@ -150,6 +150,7 @@ function App() {
       </div>
       <div className="voteContainer">
         <h1>Select a candidate</h1>
+        <h4>You can only vote once, choose wisely!</h4>
         {/* <div>
           <button onClick={() => vote("1")}>Candidate 1</button>
           <button onClick={() => vote("2")}>Candidate 2</button>
