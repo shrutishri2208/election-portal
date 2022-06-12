@@ -11,7 +11,7 @@ function App() {
   const [error, setError] = useState(false);
   //const [candidateCount, setCandidateCount] = useState();
 
-  const contractAddress = "0xF76e2868EaFC193A9426d62bcc55A12b8E613808";
+  const contractAddress = "0x87543dA22246009AFDBA9644dd12fF0994C381E8";
   const contractABI = abi.abi;
 
   const checkIfWalletIsConnected = async () => {
@@ -50,6 +50,7 @@ function App() {
         method: "eth_requestAccounts",
       });
       setCurrentAccount(accounts[0]);
+      getDetails();
     } catch (error) {
       console.log(error);
     }
