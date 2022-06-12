@@ -1,4 +1,4 @@
-**# Election Portal **
+# **Election Portal **
 **Basic decentralized application for casting your vote - connect your wallet and vote for your candidate.**
 
 ## Cloning and running the application locally
