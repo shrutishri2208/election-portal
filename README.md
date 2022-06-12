@@ -4,17 +4,33 @@ Basic decentralized application for casting your vote - connect your wallet and 
 
 ## Cloning and running the application locally
 ### Clone the project 
-`git clone https://github.com/shrutishri2208/election-portal.git`
+```
+
+git clone https://github.com/shrutishri2208/election-portal.git
+
+```
 
 ### Navigate to the directory
-`cd election-portal
-cd election-site`
+```
+
+cd election-portal
+cd election-site
+
+```
 
 ### Install all the dependencies
-`npm install
-npm install ethers`
+```
+
+npm install
+npm install ethers
+
+```
 
 ### Run the application
-`npm start`
+```
+
+npm start
+
+```
 
 ## Live application URL
