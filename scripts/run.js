@@ -40,7 +40,7 @@
 // runMain();
 
 const main = async () => {
-  const [owner, randomPerson] = await hre.ethers.getSigners();
+  const [owner, randomPerson1, randomPerson2] = await hre.ethers.getSigners();
   const accountBalance = await owner.getBalance();
   const electionContractFactory = await hre.ethers.getContractFactory(
     "Election"
@@ -55,11 +55,14 @@ const main = async () => {
   let voteTxn = await electionContract.vote(1);
   await voteTxn.wait();
 
-  voteTxn = await electionContract.vote(2);
+  voteTxn = await electionContract.connect(randomPerson1).vote(2);
   await voteTxn.wait();
 
-  let voters = await electionContract.getAllVoters();
-  console.log(voters);
+  voteTxn = await electionContract.connect(randomPerson2).vote(2);
+  await voteTxn.wait();
+
+  // let voters = await electionContract.getAllVoters();
+  // console.log(voters);
 };
 
 const runMain = async () => {
